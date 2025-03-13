@@ -5,15 +5,12 @@ import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.TextArea
 import javafx.scene.control.ToggleButton
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.shape.Rectangle
 
 import org.example.hiddenpixel.model.Model
 
 class HelloController {
-
-    @FXML
-    lateinit var imageBackground: Rectangle
 
     @FXML
     lateinit var secretMessageField: TextArea
@@ -49,13 +46,42 @@ class HelloController {
     private val imageLoader = ImageLoader()
 
 
+
     @FXML
     fun onLoadImageClick(actionEvent: ActionEvent) {
+        outputTextArea.clear()
         val img = imageLoader.loadImage()
         if (img != null) {
-            model.set_orig_img(img)
+            model.setOrigImg(img)
             imageView.image = img
+            outputTextArea.clear()
+            outputTextArea.text = "> Max ${model.height * model.width * 4} characters"
+        }else{
+            outputTextArea.text = "> Something went wrong loading image!"
         }
+    }
+
+    @FXML
+    fun onEncodeClick(actionEvent: ActionEvent) {
+        val msg: String? = secretMessageField.text
+
+        if (msg.isNullOrEmpty()) {
+            outputTextArea.text = "> No Message!"
+            return
+        }
+
+        model.setMessage(msg)
+
+        val newImg: Image? = model.encode()
+
+        if (newImg != null) {
+            imageView.image = newImg
+            outputTextArea.clear()
+            outputTextArea.text = "> Encoded image successfully"
+        }else{
+            outputTextArea.text = "> Something went wrong while encoding!"
+        }
+
     }
 
     @FXML
@@ -63,13 +89,12 @@ class HelloController {
 
     }
 
+
+
     @FXML
     fun onDecodeClick(actionEvent: ActionEvent) {
 
     }
 
-    @FXML
-    fun onEncodeClick(actionEvent: ActionEvent) {
 
-    }
 }
