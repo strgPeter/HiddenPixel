@@ -6,13 +6,29 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 
 class HelloApplication : Application() {
+
+    lateinit var stage: Stage
+
     override fun start(stage: Stage) {
+
+        instance = this
+        this.stage = stage
+
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("hello-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 800.0, 600.0)
         stage.title = "HiddenPxl"
         stage.scene = scene
         stage.show()
     }
+
+    companion object {
+        private var instance: HelloApplication? = null
+
+        fun getStage(): Stage? {
+            return instance?.stage
+        }
+    }
+
 }
 
 fun main() {
