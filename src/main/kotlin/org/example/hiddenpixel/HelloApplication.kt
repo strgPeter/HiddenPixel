@@ -15,7 +15,7 @@ class HelloApplication : Application() {
         this.stage = stage
 
         val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("hello-view.fxml"))
-        val scene = Scene(fxmlLoader.load(), 800.0, 600.0)
+        val scene = Scene(fxmlLoader.load(), 850.0, 500.0)
         stage.title = "HiddenPxl"
         stage.scene = scene
         stage.show()

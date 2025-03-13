@@ -12,6 +12,8 @@ import org.example.hiddenpixel.model.Model
 
 class HelloController {
 
+
+
     @FXML
     lateinit var secretMessageField: TextArea
 
@@ -29,6 +31,9 @@ class HelloController {
 
     @FXML
     lateinit var redToggle: ToggleButton
+
+    @FXML
+    lateinit var alphaToggle: ToggleButton
 
     @FXML
     lateinit var encodeButton: Button

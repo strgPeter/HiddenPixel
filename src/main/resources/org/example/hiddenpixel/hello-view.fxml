@@ -19,7 +19,7 @@
 
     <!-- Main Layout Split into Two Sections -->
     <HBox spacing="20.0">
-        <!-- Left Panel for Image and Input -->
+        <!-- Left Panel for Image and Output -->
         <VBox spacing="20.0">
             <!-- Image Frame with Rectangle as Background -->
             <StackPane>
@@ -27,43 +27,45 @@
                 <ImageView fx:id="imageView" fitWidth="600.0" fitHeight="400.0" preserveRatio="true"/>
             </StackPane>
 
-            <!-- Multi-line Text Input for Secret Message -->
-            <TextArea fx:id="secretMessageField" prefWidth="600.0" prefHeight="150.0" wrapText="true"
-                      promptText="for inputting secret message to be encoded">
+            <!-- Text Output Field for Error Messages (max 3 lines) -->
+            <TextArea fx:id="outputTextArea" prefWidth="600.0" prefHeight="60.0" maxHeight="60.0" editable="false"
+                      wrapText="true">
                 <VBox.margin>
                     <Insets top="10.0"/>
                 </VBox.margin>
             </TextArea>
         </VBox>
 
-        <!-- Right Panel for Controls and Output -->
-        <VBox spacing="20.0" alignment="CENTER">
+        <!-- Right Panel for Controls and Input -->
+        <VBox spacing="20.0" alignment="TOP_CENTER">
             <!-- Load and Save Image Buttons -->
             <HBox spacing="10.0">
-                <Button fx:id="loadImageButton" text="load img" prefWidth="100.0" prefHeight="40.0"
+                <Button fx:id="loadImageButton" text="load img" prefWidth="120.0" prefHeight="40.0"
                         onAction="#onLoadImageClick"/>
-                <Button fx:id="saveImageButton" text="save img" prefWidth="100.0" prefHeight="40.0"
+                <Button fx:id="saveImageButton" text="save img" prefWidth="120.0" prefHeight="40.0"
                         onAction="#onSaveImageClick"/>
             </HBox>
 
             <!-- Encode and Decode Buttons -->
             <HBox spacing="10.0">
-                <Button fx:id="decodeButton" text="decode" prefWidth="100.0" prefHeight="40.0"
+                <Button fx:id="decodeButton" text="decode" prefWidth="120.0" prefHeight="40.0"
                         onAction="#onDecodeClick"/>
-                <Button fx:id="encodeButton" text="encode" prefWidth="100.0" prefHeight="40.0"
+                <Button fx:id="encodeButton" text="encode" prefWidth="120.0" prefHeight="40.0"
                         onAction="#onEncodeClick"/>
             </HBox>
 
-            <!-- RGB Toggle Buttons -->
+            <!-- ARGB Toggle Buttons -->
             <HBox spacing="10.0">
-                <ToggleButton fx:id="redToggle" text="r" prefWidth="60.0" prefHeight="30.0"/>
-                <ToggleButton fx:id="greenToggle" text="g" prefWidth="60.0" prefHeight="30.0"/>
-                <ToggleButton fx:id="blueToggle" text="b" prefWidth="60.0" prefHeight="30.0"/>
+                <ToggleButton fx:id="redToggle" text="r" prefWidth="70.0" prefHeight="30.0"/>
+                <ToggleButton fx:id="greenToggle" text="g" prefWidth="70.0" prefHeight="30.0"/>
+                <ToggleButton fx:id="blueToggle" text="b" prefWidth="70.0" prefHeight="30.0"/>
+                <ToggleButton fx:id="alphaToggle" text="a" prefWidth="70.0" prefHeight="30.0"/>
             </HBox>
 
-            <!-- Text Output Field for Error Messages (3 lines tall) -->
-            <TextArea fx:id="outputTextArea" prefWidth="200.0" prefHeight="60.0" editable="false"
-                      wrapText="true">
+            <!-- Multi-line Text Input for Secret Message -->
+            <TextArea fx:id="secretMessageField" prefWidth="300.0" wrapText="true"
+                      promptText="for inputting secret message to be encoded">
+                <VBox.vgrow>ALWAYS</VBox.vgrow>
                 <VBox.margin>
                     <Insets top="10.0"/>
                 </VBox.margin>
