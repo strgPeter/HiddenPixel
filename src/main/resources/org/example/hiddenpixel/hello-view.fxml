@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.hiddenpixel.controller.HelloController">
+      fx:controller="org.example.hiddenpixel.controller.HelloController" styleClass="root">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -23,13 +23,13 @@
         <VBox spacing="20.0">
             <!-- Image Frame with Rectangle as Background -->
             <StackPane>
-                <Rectangle fx:id="imageBackground" width="600.0" height="400.0" fill="lightgray"/>
+                <Rectangle fx:id="imageBackground" width="600.0" height="400.0" fill="#3c3f41"/>
                 <ImageView fx:id="imageView" fitWidth="600.0" fitHeight="400.0" preserveRatio="true"/>
             </StackPane>
 
             <!-- Text Output Field for Error Messages (max 3 lines) -->
             <TextArea fx:id="outputTextArea" prefWidth="600.0" prefHeight="60.0" maxHeight="60.0" editable="false"
-                      wrapText="true">
+                      wrapText="true" styleClass="text-area">
                 <VBox.margin>
                     <Insets top="10.0"/>
                 </VBox.margin>
@@ -41,30 +41,30 @@
             <!-- Load and Save Image Buttons -->
             <HBox spacing="10.0">
                 <Button fx:id="loadImageButton" text="load img" prefWidth="120.0" prefHeight="40.0"
-                        onAction="#onLoadImageClick"/>
+                        onAction="#onLoadImageClick" styleClass="button"/>
                 <Button fx:id="saveImageButton" text="save img" prefWidth="120.0" prefHeight="40.0"
-                        onAction="#onSaveImageClick"/>
+                        onAction="#onSaveImageClick" styleClass="button"/>
             </HBox>
 
             <!-- Encode and Decode Buttons -->
             <HBox spacing="10.0">
                 <Button fx:id="decodeButton" text="decode" prefWidth="120.0" prefHeight="40.0"
-                        onAction="#onDecodeClick"/>
+                        onAction="#onDecodeClick" styleClass="button"/>
                 <Button fx:id="encodeButton" text="encode" prefWidth="120.0" prefHeight="40.0"
-                        onAction="#onEncodeClick"/>
+                        onAction="#onEncodeClick" styleClass="button"/>
             </HBox>
 
             <!-- ARGB Toggle Buttons -->
             <HBox spacing="10.0">
-                <ToggleButton fx:id="redToggle" text="r" prefWidth="70.0" prefHeight="30.0"/>
-                <ToggleButton fx:id="greenToggle" text="g" prefWidth="70.0" prefHeight="30.0"/>
-                <ToggleButton fx:id="blueToggle" text="b" prefWidth="70.0" prefHeight="30.0"/>
-                <ToggleButton fx:id="alphaToggle" text="a" prefWidth="70.0" prefHeight="30.0"/>
+                <ToggleButton fx:id="redToggle" text="r" prefWidth="70.0" prefHeight="30.0" styleClass="toggle-button"/>
+                <ToggleButton fx:id="greenToggle" text="g" prefWidth="70.0" prefHeight="30.0" styleClass="toggle-button"/>
+                <ToggleButton fx:id="blueToggle" text="b" prefWidth="70.0" prefHeight="30.0" styleClass="toggle-button"/>
+                <ToggleButton fx:id="alphaToggle" text="a" prefWidth="70.0" prefHeight="30.0" styleClass="toggle-button"/>
             </HBox>
 
             <!-- Multi-line Text Input for Secret Message -->
             <TextArea fx:id="secretMessageField" prefWidth="300.0" wrapText="true"
-                      promptText="for inputting secret message to be encoded">
+                      promptText="for inputting secret message to be encoded" styleClass="text-area">
                 <VBox.vgrow>ALWAYS</VBox.vgrow>
                 <VBox.margin>
                     <Insets top="10.0"/>
