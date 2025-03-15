@@ -60,7 +60,9 @@ class HelloController {
             model.setOrigImg(img)
             imageView.image = img
             outputTextArea.clear()
-            outputTextArea.text = "> Max ${model.height * model.width * 4} characters"
+            val numChannels = updateChannels(alphaToggle.isSelected, redToggle.isSelected, greenToggle.isSelected, blueToggle.isSelected)
+            if (numChannels > 0)
+                outputTextArea.text = "> Max ${model.height * model.width * numChannels} characters"
         }else{
             outputTextArea.text = "> Something went wrong loading image!"
         }
@@ -68,14 +70,23 @@ class HelloController {
 
     @FXML
     fun onEncodeClick(actionEvent: ActionEvent) {
+        val img: Image? = imageView.image
+        if (img == null) {
+            outputTextArea.text = "> No Image!"
+            return
+        }
         val msg: String? = secretMessageField.text
-
         if (msg.isNullOrEmpty()) {
             outputTextArea.text = "> No Message!"
             return
         }
-
         model.setMessage(msg)
+
+        val numChannels = updateChannels(alphaToggle.isSelected, redToggle.isSelected, greenToggle.isSelected, blueToggle.isSelected)
+        if (numChannels == 0) {
+            outputTextArea.text = "> Select at least one channel!"
+            return
+        }
 
         val newImg: Image? = model.encode()
 
@@ -89,6 +100,8 @@ class HelloController {
 
     }
 
+
+
     @FXML
     fun onSaveImageClick(actionEvent: ActionEvent) {
 
@@ -99,6 +112,21 @@ class HelloController {
     @FXML
     fun onDecodeClick(actionEvent: ActionEvent) {
 
+    }
+
+    fun onSelectChannel(actionEvent: ActionEvent) {
+        val numChannels = updateChannels(alphaToggle.isSelected, redToggle.isSelected, greenToggle.isSelected, blueToggle.isSelected)
+        if (numChannels > 0 && imageView.image != null)
+            outputTextArea.text = "> Max ${model.height * model.width * numChannels} characters"
+    }
+
+    private fun updateChannels(a: Boolean, r: Boolean, g: Boolean, b: Boolean) : Int{
+        model.setChannels(mapOf(
+            'a' to a,
+            'r' to r,
+            'g' to g,
+            'b' to b))
+        return model.numChannels
     }
 
 

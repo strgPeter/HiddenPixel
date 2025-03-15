@@ -7,6 +7,7 @@ import javafx.scene.image.WritableImage
 class Model {
     private var origImg : Image? = null
     private var message: String? = null
+    private var channels: Map<Char, Boolean>? = null
 
     val width
         get() = origImg?.width?.toInt() ?: 0
@@ -14,14 +15,19 @@ class Model {
     val height
         get() = origImg?.height?.toInt() ?: 0
 
-    fun getOrigImg() = origImg
+    val numChannels
+        get() = channels?.values?.filter { it }?.size ?: 0
+
     fun setOrigImg(image : Image) {
         this.origImg = image
     }
 
-    fun getMessage() = message
     fun setMessage(message: String) {
         this.message = message
+    }
+
+    fun setChannels(channels: Map<Char, Boolean>) {
+        this.channels = channels
     }
 
     fun encode(): Image?{
@@ -52,15 +58,25 @@ class Model {
                     val b = pxl and 0xFF
 
                     // Modify LSB:
-                    val newA = (a and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
-                    val newR = (r and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
-                    val newG = (g and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
-                    val newB = (b and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
+                    val localChannels = channels
+                    if (localChannels != null) {
+                        var (newA, newR, newG, newB) = listOf(a, r, g, b)
+                        if (localChannels.getValue('a'))
+                            newA = (a and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
+                        if (localChannels.getValue('r'))
+                            newR = (r and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
+                        if (localChannels.getValue('g'))
+                            newG = (g and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
+                        if (localChannels.getValue('b'))
+                            newB = (b and 0xFE) or ((binMsg[binMsgPtr++].digitToInt()) and 1)
 
-                    // Reconstruct modified ARGB value
-                    val newPxl = (newA shl 24) or (newR shl 16) or (newG shl 8) or newB
+                        // Reconstruct modified ARGB value
+                        val newPxl = (newA shl 24) or (newR shl 16) or (newG shl 8) or newB
 
-                    pxlWriter.setArgb(x, y, newPxl)
+                        pxlWriter.setArgb(x, y, newPxl)
+                    }else return null
+
+
                 }else{
                     pxlWriter.setArgb(x, y, pxl)
                 }
