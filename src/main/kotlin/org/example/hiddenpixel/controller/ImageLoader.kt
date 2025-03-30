@@ -9,7 +9,7 @@ import java.util.*
 
 class ImageLoader {
 
-    val fc = FileChooser()
+    private val fc = FileChooser()
 
     fun loadImage(): javafx.scene.image.Image? {
         fc.selectedExtensionFilter = FileChooser.ExtensionFilter("PNG", "*.png")
