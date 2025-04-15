@@ -7,6 +7,11 @@ import javafx.scene.control.TextArea
 import javafx.scene.control.ToggleButton
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.image.WritableImage
+import javafx.stage.FileChooser
+import org.example.hiddenpixel.HelloApplication
+import javax.imageio.ImageIO
+import java.io.IOException
 
 import org.example.hiddenpixel.model.Model
 
@@ -100,18 +105,68 @@ class HelloController {
 
     }
 
-
-
     @FXML
     fun onSaveImageClick(actionEvent: ActionEvent) {
+        val img = imageView.image
+        if (img == null) {
+            outputTextArea.text = "> No image to save!"
+            return
+        }
 
+        val fileChooser = FileChooser()
+        fileChooser.title = "Save Image"
+        fileChooser.extensionFilters.add(FileChooser.ExtensionFilter("PNG", "*.png"))
+
+        val file = fileChooser.showSaveDialog(HelloApplication.getStage()?.scene?.window)
+
+        if (file != null) {
+            try {
+                val width = img.width.toInt()
+                val height = img.height.toInt()
+                val bufferedImage = java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+
+                // Transfer pixels manually
+                for (y in 0 until height) {
+                    for (x in 0 until width) {
+                        bufferedImage.setRGB(x, y, img.pixelReader.getArgb(x, y))
+                    }
+                }
+
+                ImageIO.write(bufferedImage, "png", file)
+                outputTextArea.text = "> Image saved successfully"
+            } catch (e: IOException) {
+                outputTextArea.text = "> Error saving image: ${e.message}"
+            }
+        }
     }
 
 
 
     @FXML
     fun onDecodeClick(actionEvent: ActionEvent) {
+        val img: Image? = imageView.image
+        if (img == null) {
+            outputTextArea.text = "> No Image!"
+            return
+        }
 
+        val numChannels = updateChannels(alphaToggle.isSelected, redToggle.isSelected, greenToggle.isSelected, blueToggle.isSelected)
+        if (numChannels == 0) {
+            outputTextArea.text = "> Select at least one channel!"
+            return
+        }
+
+        try {
+            val decodedMessage = model.decode(img)
+            if (decodedMessage != null) {
+                secretMessageField.text = decodedMessage
+                outputTextArea.text = "> Message decoded successfully"
+            } else {
+                outputTextArea.text = "> Could not decode message!"
+            }
+        } catch (e: Exception) {
+            outputTextArea.text = "> Error decoding: ${e.message}"
+        }
     }
 
     fun onSelectChannel(actionEvent: ActionEvent) {

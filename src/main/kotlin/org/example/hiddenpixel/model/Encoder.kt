@@ -69,11 +69,14 @@ class Encoder {
                 val g = (pxl shr 8) and 0xFF
                 val b = pxl and 0xFF
 
-                val newR = (r and 0xFE) or ((lengthBin[7-i].digitToInt()) and 1)
+                val newR = (r and 0xFE) or ((lengthBin[i].digitToInt()) and 1)
+
+                //print((lengthBin[i].digitToInt()) and 1)
                 val newPxl = (a shl 24) or (newR shl 16) or (g shl 8) or b
 
                 pw.setArgb(i, 0, newPxl)
             }
+            println()
         }
     }
 }

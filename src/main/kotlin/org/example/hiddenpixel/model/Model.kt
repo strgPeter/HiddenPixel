@@ -34,6 +34,12 @@ class Model {
         else Encoder.encode(message!!, origImg!!, channels!!)
     }
 
+    fun decode(image: Image): String? {
+        return if (image != null && channels != null) {
+            Decoder.decode(image, channels!!)
+        } else null
+    }
+
 
 
 
