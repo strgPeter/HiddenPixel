@@ -12,13 +12,13 @@ import javafx.stage.FileChooser
 import org.example.hiddenpixel.HelloApplication
 import javax.imageio.ImageIO
 import java.io.IOException
-
 import org.example.hiddenpixel.model.Model
 
+/**
+ * Main controller for the application UI.
+ * Handles user interactions and connects the UI with the model.
+ */
 class HelloController {
-
-
-
     @FXML
     lateinit var secretMessageField: TextArea
 
@@ -55,8 +55,12 @@ class HelloController {
     private val model = Model()
     private val imageLoader = ImageLoader()
 
-
-
+    /**
+     * Handles the load image button click.
+     * Opens a file chooser dialog and displays the selected image.
+     *
+     * @param actionEvent The event that triggered this method
+     */
     @FXML
     fun onLoadImageClick(actionEvent: ActionEvent) {
         outputTextArea.clear()
@@ -64,15 +68,22 @@ class HelloController {
         if (img != null) {
             model.setOrigImg(img)
             imageView.image = img
-            outputTextArea.clear()
+outputTextArea.clear()
+outputTextArea.clear()
             val numChannels = updateChannels(alphaToggle.isSelected, redToggle.isSelected, greenToggle.isSelected, blueToggle.isSelected)
             if (numChannels > 0)
                 outputTextArea.text = "> Max ${model.height * model.width * numChannels} characters"
-        }else{
+            }else{
             outputTextArea.text = "> Something went wrong loading image!"
         }
     }
 
+    /**
+     * Handles the encode button click.
+     * Encodes the secret message into the current image using selected channels.
+     *
+     * @param actionEvent The event that triggered this method
+     */
     @FXML
     fun onEncodeClick(actionEvent: ActionEvent) {
         val img: Image? = imageView.image
@@ -99,12 +110,17 @@ class HelloController {
             imageView.image = newImg
             outputTextArea.clear()
             outputTextArea.text = "> Encoded image successfully"
-        }else{
+        } else {
             outputTextArea.text = "> Something went wrong while encoding!"
         }
-
     }
 
+    /**
+     * Handles the save image button click.
+     * Saves the current image to a file chosen by the user.
+     *
+     * @param actionEvent The event that triggered this method
+     */
     @FXML
     fun onSaveImageClick(actionEvent: ActionEvent) {
         val img = imageView.image
@@ -140,8 +156,12 @@ class HelloController {
         }
     }
 
-
-
+    /**
+     * Handles the decode button click.
+     * Extracts hidden message from the current image using selected channels.
+     *
+     * @param actionEvent The event that triggered this method
+     */
     @FXML
     fun onDecodeClick(actionEvent: ActionEvent) {
         val img: Image? = imageView.image
@@ -169,6 +189,13 @@ class HelloController {
         }
     }
 
+    /**
+     * Handles channel selection toggle button clicks.
+     * Updates the model with the new channel configuration.
+     *
+     * @param actionEvent The event that triggered this method
+     */
+    @FXML
     fun onSelectChannel(actionEvent: ActionEvent) {
         val numChannels = updateChannels(alphaToggle.isSelected, redToggle.isSelected, greenToggle.isSelected, blueToggle.isSelected)
         if (numChannels > 0 && imageView.image != null)
@@ -183,6 +210,4 @@ class HelloController {
             'b' to b))
         return model.numChannels
     }
-
-
 }
